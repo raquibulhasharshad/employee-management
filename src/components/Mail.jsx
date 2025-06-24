@@ -1,5 +1,6 @@
 import React,{useEffect, useState} from 'react';
 import './Mail.css';
+import emailjs from '@emailjs/browser';
 
 const Mail=({isOpen, onClose, toEmails, OnSend})=>{
     const[subject, setSubject]= useState('');
@@ -21,14 +22,32 @@ const Mail=({isOpen, onClose, toEmails, OnSend})=>{
             return;
         }
 
-        OnSend({
-            type:'success',
-            message:`Mail Sent to: ${toEmails.join(', ')}`,
-            toEmails,
-            subject,
-            body
-        });
-        onClose();
+        const templateParams={
+            to_email: toEmails.join(', '),
+            subject: subject,
+            message: body
+        };
+
+        emailjs.send(
+            import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            templateParams,
+            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+
+        ).then(()=>{
+            OnSend({
+                type: 'success',
+                message: `Mail sent to: ${toEmails.join(', ')}`,
+                toEmails,
+                subject,
+                body
+            });
+            onClose();
+        }).catch((error)=>{
+            console.error(error);
+            OnSend({type:'error', message: "Failed to send email.Please try again"});
+        })
+
     };
 
 
