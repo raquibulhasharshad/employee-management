@@ -1,7 +1,7 @@
 import React from 'react';
 import './EmployeeTable.css';
 
-const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSingle }) => {
+const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSingle, onMailSingle }) => {
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       const allIds = data.map(emp => emp.id);
@@ -54,7 +54,8 @@ const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSi
               <td>{emp.phone}</td>
               <td>
                 <span onClick={() => onEdit(index)} style={{ cursor: 'pointer' }}>✏️</span>&nbsp;
-                <span onClick={() => onDeleteSingle(index)} style={{ cursor: 'pointer' }}>🗑️</span>
+                <span onClick={() => onDeleteSingle(index)} style={{ cursor: 'pointer' }}>🗑️</span>&nbsp;
+                <span onClick={() => onMailSingle(index)} style={{ cursor: 'pointer' }}>📧</span>
               </td>
             </tr>
           ))}

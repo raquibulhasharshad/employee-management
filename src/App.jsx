@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import AddEmployeeForm from './components/AddEmployeeForm';
 import ConfirmDialog from './components/ConfirmDialog';
 import employeeData from './components/data';
+import Mail from './components/Mail';
 import './App.css';
 
 const App = () => {
@@ -21,6 +22,8 @@ const App = () => {
   const [confirmMessage, setConfirmMessage] = useState('');
   const [confirmMode, setConfirmMode] = useState('confirm');
   const [currentPage, setCurrentPage] = useState(1);
+  const [showMailModal, setShowMailModal] = useState(false);
+  const [mailRecipients, setMailRecipients] = useState([]);
 
   const recordsPerPage = 5;
   const startIndex = (currentPage - 1) * recordsPerPage;
@@ -55,7 +58,6 @@ const App = () => {
 
   const handleDeleteSingle = (index) => {
     const employee = employees[startIndex + index];
-
     setConfirmMessage(`Are you sure you want to delete ${employee?.name || "this employee"}?`);
     setConfirmMode('confirm');
     setConfirmAction(() => () => {
@@ -87,13 +89,11 @@ const App = () => {
 
   const handleSave = (employee) => {
     if (employee.id) {
-      // EDIT existing
       const updated = employees.map(emp =>
         emp.id === employee.id ? employee : emp
       );
       setEmployees(updated);
     } else {
-      // ADD new
       const newEmployee = { ...employee, id: Date.now() };
       const updated = [...employees, newEmployee];
       setEmployees(updated);
@@ -110,12 +110,53 @@ const App = () => {
     setShowConfirm(true);
   };
 
+  const handleBulkMail = () => {
+    const emails = (selectedRows[currentPage] || [])
+      .map(id => employees.find(emp => emp.id === id)?.email)
+      .filter(Boolean);
+
+    if (emails.length > 0) {
+      setMailRecipients(emails);
+      setShowMailModal(true);
+    }
+  };
+
+  const handleSingleMail = (index) => {
+    const emp = employees[startIndex + index];
+    if (emp?.email) {
+      setMailRecipients([emp.email]);
+      setShowMailModal(true);
+    }
+  };
+
+const handleMailsend = (data) => {
+  if (data.type === 'error') {
+    setConfirmMessage(data.message);
+    setConfirmMode('alert');
+    setConfirmAction(() => () => setShowConfirm(false));
+    setShowConfirm(true);
+    return;
+  }
+
+  console.log("Send to: ", data.toEmails);
+  console.log("subject: ", data.subject);
+  console.log("body: ", data.body);
+
+  setConfirmMessage(data.message);
+  setConfirmMode('alert');
+  setConfirmAction(() => () => setShowConfirm(false));
+  setShowConfirm(true);
+  setShowMailModal(false);
+  }
+
   return (
     <div className="app-container">
       <Navbar
         isDeleteDisabled={!selectedRows[currentPage] || selectedRows[currentPage].length === 0}
+        isMailDisabled={!selectedRows[currentPage] || selectedRows[currentPage].length === 0}
         onDelete={handleDeleteSelected}
         onAdd={handleAddNew}
+        onMail={handleBulkMail}
       />
 
       <EmployeeTable
@@ -126,6 +167,7 @@ const App = () => {
         }
         onEdit={handleEdit}
         onDeleteSingle={handleDeleteSingle}
+        onMailSingle={handleSingleMail}
       />
 
       <Footer
@@ -134,6 +176,13 @@ const App = () => {
         setCurrentPage={setCurrentPage}
         totalL={employees.length}
         currentL={currentEmployees.length}
+      />
+
+      <Mail
+        isOpen={showMailModal}
+        onClose={() => setShowMailModal(false)}
+        toEmails={mailRecipients}
+        OnSend={handleMailsend}
       />
 
       {showForm && (

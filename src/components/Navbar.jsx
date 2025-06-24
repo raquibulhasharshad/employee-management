@@ -1,11 +1,18 @@
 import React from 'react';
 import './Navbar.css';
 
-const Navbar = ({ isDeleteDisabled, onDelete, onAdd }) => {
+const Navbar = ({ isDeleteDisabled, isMailDisabled, onDelete, onAdd, onMail }) => {
   return (
     <nav className="navbar">
       <div className="navbar-left">Manage Employees</div>
       <div className="navbar-right">
+        <button
+          className={`Mail ${isMailDisabled ? 'inactive' : ''}`}
+          onClick={onMail}
+          disabled={isMailDisabled}
+        >
+          📧 Mail
+        </button>
         <button
           className={`Del ${isDeleteDisabled ? 'inactive' : ''}`}
           onClick={onDelete}
