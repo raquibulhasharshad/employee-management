@@ -85,3 +85,11 @@
 .mail-buttons button:hover:not(.sending):not(.cancel-sending) {
   opacity: 0.8;
 }
+
+
+@media (max-width: 480px) {
+  .mail-box {
+    width: 90%;
+    padding: 15px;
+  }
+}

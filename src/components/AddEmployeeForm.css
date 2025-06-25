@@ -70,3 +70,21 @@
   align-items: center;
   z-index: 1000;
 }
+
+.add-form img {
+  display: block;
+  margin: 10px auto 0 auto;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+
+@media (max-width: 480px) {
+  .add-form-container {
+    width: 90%;
+    padding: 15px;
+  }
+}
+
+
+

@@ -30,3 +30,19 @@ body {
   margin: 30px 0;
   color: #555;
 }
+
+@media (max-width: 768px) {
+  .no-records {
+    font-size: 16px;
+    margin: 20px 0;
+    padding: 0 10px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .no-records {
+    font-size: 14px;
+    margin: 15px 0;
+  }
+}

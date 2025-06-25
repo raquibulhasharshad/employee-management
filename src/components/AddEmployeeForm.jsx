@@ -7,13 +7,15 @@ const AddEmployeeForm = ({ onSave, onCancel, editData, onValidationError }) => {
     name: '',
     email: '',
     address: '',
-    phone: ''
+    phone: '',
+    image: ''
   });
 
   useEffect(() => {
     if (editData) {
       setForm({
-        id: editData.id || null, // 👈 Keep id to detect it's an edit
+        id: editData.id || null, 
+        image: editData.image,
         name: editData.name,
         email: editData.email,
         address: editData.address,
@@ -28,9 +30,9 @@ const AddEmployeeForm = ({ onSave, onCancel, editData, onValidationError }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { name, email, address, phone } = form;
+    const { image, name, email, address, phone } = form;
 
-    if (!name || !email || !address || !phone) {
+    if (!image||!name || !email || !address || !phone) {
       onValidationError('Please fill in all fields');
       return;
     }
@@ -47,12 +49,21 @@ const AddEmployeeForm = ({ onSave, onCancel, editData, onValidationError }) => {
       return;
     }
 
-    onSave(form); // 👈 Will include id if editing
+    onSave(form); 
   };
 
   return (
     <div className="add-form-container">
       <form onSubmit={handleSubmit} className="add-form">
+
+        <input
+          type="text"
+          name="image"
+          placeholder="Image"
+          value={form.image}
+          onChange={handleChange}
+        />
+
         <input
           type="text"
           name="name"
@@ -81,6 +92,13 @@ const AddEmployeeForm = ({ onSave, onCancel, editData, onValidationError }) => {
           value={form.phone}
           onChange={handleChange}
         />
+
+        {form.image && (
+          <img 
+          src={form.image}
+          alt="Avatar Preview"
+          />
+        )} 
 
         <div className="button-row">
           <button type="submit" className="save-btn">

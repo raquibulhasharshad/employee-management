@@ -57,3 +57,12 @@
   font-size: 16px;
   color: #333;
 }
+
+
+@media (max-width: 480px) {
+  .confirm-box {
+    width: 90%;
+    padding: 20px;
+  }
+}
+
