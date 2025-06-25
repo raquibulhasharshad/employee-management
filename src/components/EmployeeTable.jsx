@@ -2,6 +2,7 @@ import React from 'react';
 import './EmployeeTable.css';
 
 const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSingle, onMailSingle }) => {
+
   const handleSelectAll = (e) => {
     if (e.target.checked) {
       const allIds = data.map(emp => emp.id);
@@ -31,6 +32,7 @@ const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSi
                 checked={selectedRows.length === data.length && data.length > 0}
               />
             </th>
+            <th>Image</th>
             <th>Name</th>
             <th>Email</th>
             <th>Address</th>
@@ -46,6 +48,13 @@ const EmployeeTable = ({ data, selectedRows, setSelectedRows, onEdit, onDeleteSi
                   type="checkbox"
                   checked={selectedRows.includes(emp.id)}
                   onChange={() => handleCheckboxChange(emp.id)}
+                />
+              </td>
+              <td>
+                <img
+                  src={emp.image || "https://i.pravatar.cc/150?img=3"}
+                  alt={emp.name}
+                  style={{ width: "40px", height: "40px", borderRadius: "50%" }}
                 />
               </td>
               <td>{emp.name}</td>

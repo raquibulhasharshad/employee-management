@@ -29,3 +29,4 @@ const Navbar = ({ isDeleteDisabled, isMailDisabled, onDelete, onAdd, onMail }) =
 };
 
 export default Navbar;
+

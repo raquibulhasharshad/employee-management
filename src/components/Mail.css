@@ -4,7 +4,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -15,7 +15,7 @@
   padding: 20px;
   border-radius: 10px;
   width: 350px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 .mail-box h2 {
@@ -30,21 +30,16 @@
   font-weight: bold;
 }
 
-.input-small {
+.input-small, .input-large {
   width: 100%;
   padding: 8px;
-  margin-bottom: 10px;
   border-radius: 5px;
   border: 1px solid #ccc;
 }
 
 .input-large {
-  width: 100%;
-  padding: 8px;
   min-height: 100px;
   resize: vertical;
-  border-radius: 5px;
-  border: 1px solid #ccc;
 }
 
 .mail-buttons {
@@ -58,14 +53,35 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+/* Send button default */
 .mail-buttons button:first-child {
   background-color: green;
   color: white;
 }
 
+/* Send button during sending */
+.mail-buttons button.sending {
+  background-color: darkgreen;
+  color: white;
+  cursor: not-allowed;
+}
+
+/* Cancel button default */
 .mail-buttons button:last-child {
   background-color: grey;
   color: white;
+}
+
+/* Cancel button during sending */
+.mail-buttons button.cancel-sending {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
+/* Hover effect only when button is active */
+.mail-buttons button:hover:not(.sending):not(.cancel-sending) {
+  opacity: 0.8;
 }

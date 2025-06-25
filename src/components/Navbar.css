@@ -32,6 +32,10 @@ button.Del {
   cursor: not-allowed;
 }
 
+button.Del.inactive{
+  visibility: hidden;
+}
+
 button.Del:enabled {
   background-color: #d9534f;
   cursor: pointer;
@@ -59,6 +63,7 @@ button.Mail:hover {
 button.Mail.inactive {
   background-color: grey;
   cursor: not-allowed;
+  visibility: hidden;
 }
 
 /* Add Button */
